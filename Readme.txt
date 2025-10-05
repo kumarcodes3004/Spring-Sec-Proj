@@ -20,12 +20,22 @@
     ////////////////////////////////////////////////////////////////
 
 
+    @Bean
     public AuthenticationProvider authProivder(){
+        //this Class  DaoAuthenticationProvider ->helps to deal with user from db
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        //this wont work alone, we need to tell about the db and classes
+        //User table name , how we represnt the class
+
+        provider.setUserDetailsService(userDetailsService);
+        //not using any password encoder
+        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
 
         return provider;
-    }}
+    }
+      # DaoAuthenticationProvider -> helps to deal with actual uysers frfom db.which helps in dealing with multiple users rather than hardcoding
 
+      #   provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance()); -> used to match the password in db with the username
         For different type of authetication we have different type of Auth provider
         ->Since we are working with database we have DaoAutheticationProvider
         #DAO->data access object

@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,13 +29,14 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationProvider authProivder(){
+        //this Class  DaoAuthenticationProvider ->helps to deal with user from db
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         //this wont work alone, we need to tell about the db and classes
         //User table name , how we represnt the class
 
         provider.setUserDetailsService(userDetailsService);
-        //not using any password encoder
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+//        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
 
         return provider;
     }
